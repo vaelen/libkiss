@@ -1,0 +1,25 @@
+{
+  "name": "libkiss",
+  "version": "1.0.0",
+  "description": "A library for handling the KISS protocol used by TNCs",
+  "keywords": "kiss, tnc, radio",
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/vaelen/libkiss.git"
+  },
+  "authors":
+  [
+    {
+      "name": "Andrew C. Young",
+      "email": "andrew@vaelen.org",
+      "url": "https://vaelen.org"
+    }
+  ],
+  "license": "MIT",
+  "homepage": "https://www.vaelen.org/",
+  "dependencies": {
+  },
+  "frameworks": "*",
+  "platforms": "*"
+}
