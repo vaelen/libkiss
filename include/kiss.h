@@ -51,6 +51,7 @@ typedef enum kiss_command kiss_command_t;
 struct kiss_packet {
     kiss_command_t command;
     uint8_t port;
+    uint8_t complete_packet;
     uint8_t *data;
     size_t data_length;
     size_t data_capacity;
@@ -77,6 +78,9 @@ size_t kiss_decode_packet(kiss_packet_t *packet, uint8_t *buffer, size_t buffer_
 
 // Create and initialize a packet
 kiss_packet_t kiss_new_packet(uint8_t *data_buffer, size_t data_buffer_size);
+
+// Re-initialize a packet
+void kiss_clear_packet(kiss_packet_t *packet);
 
 // Return a human readable name for a command
 const char* kiss_command_name(kiss_command_t command);

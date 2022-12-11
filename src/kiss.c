@@ -116,7 +116,6 @@ size_t kiss_decode_packet(kiss_packet_t *p, uint8_t *buffer, size_t buffer_size)
     uint8_t *packet_data_start = 0;
     size_t packet_data_length = 0;
     uint8_t found_packet = 0;
-    uint8_t complete_packet = 0;
 
     for (size_t i = 0; i < buffer_size; i++) {
         uint8_t b = buffer[i];
@@ -124,13 +123,13 @@ size_t kiss_decode_packet(kiss_packet_t *p, uint8_t *buffer, size_t buffer_size)
             if (found_packet) {
                 // End of packet
                 bytes_consumed = i;
-                complete_packet = 1;
                 found_packet = 0;
+                p->complete_packet = 1;
                 p->data_length = kiss_decode_data(packet_data_start, packet_data_length, p->data, p->data_capacity);
             }
             bytes_consumed++;
         } else {
-            if(complete_packet) {
+            if(p->complete_packet) {
                 // Start of second packet, return early
                 break;
             } else if(!found_packet) {
@@ -153,11 +152,20 @@ kiss_packet_t kiss_new_packet(uint8_t *data_buffer, size_t data_buffer_size) {
     kiss_packet_t p = {
         .port = 0,
         .command = KISS_DATA_FRAME,
+        .complete_packet = 0,
         .data = data_buffer,
         .data_length = 0,
         .data_capacity = data_buffer_size
     };
     return p;
+}
+
+// Re-initialize a packet
+void kiss_clear_packet(kiss_packet_t *packet) {
+    packet->port = 0;
+    packet->command = KISS_DATA_FRAME;
+    packet->complete_packet = 0;
+    packet->data_length = 0;
 }
 
 // Return a human readable name for a command
